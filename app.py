@@ -7,7 +7,7 @@ import streamlit as st
 
 # Config / constants
 
-DEFAULT_API_BASE = os.getenv("API_BASE", "http://127.0.0.1:8000")
+DEFAULT_API_BASE = os.getenv("API_BASE", "https://movie-recommender-0yao.onrender.com" or "http://127.0.0.1:8000")
 POSTER_BASE = "https://image.tmdb.org/t/p/w500"
 BACKDROP_BASE = "https://image.tmdb.org/t/p/original"
 
