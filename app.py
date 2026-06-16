@@ -1,22 +1,12 @@
-"""
-CineMatch — Netflix-style frontend for the Movie Recommender FastAPI backend.
-
-Run with:
-    streamlit run app.py
-
-Expects the FastAPI backend (main.py) running, by default at http://127.0.0.1:8000
-Change the backend URL anytime from the sidebar Settings panel.
-"""
-
 import os
 from datetime import datetime
 
 import requests
 import streamlit as st
 
-# ----------------------------------------------------------------------
+
 # Config / constants
-# ----------------------------------------------------------------------
+
 DEFAULT_API_BASE = os.getenv("API_BASE", "http://127.0.0.1:8000")
 POSTER_BASE = "https://image.tmdb.org/t/p/w500"
 BACKDROP_BASE = "https://image.tmdb.org/t/p/original"
@@ -31,9 +21,9 @@ CATEGORY_LABELS = {
 
 st.set_page_config(page_title="CineMatch", page_icon="🎬", layout="wide")
 
-# ----------------------------------------------------------------------
+
 # Session state
-# ----------------------------------------------------------------------
+
 defaults = {
     "view": "home",
     "selected_query": None,
@@ -44,9 +34,9 @@ for k, v in defaults.items():
     if k not in st.session_state:
         st.session_state[k] = v
 
-# ----------------------------------------------------------------------
-# Theme — Netflix-style dark CSS
-# ----------------------------------------------------------------------
+
+# Theme
+
 st.markdown(
     """
 <style>
@@ -113,9 +103,9 @@ div[data-testid="stSelectbox"] div, .stSlider label, .stSlider span { color:#e5e
     unsafe_allow_html=True,
 )
 
-# ----------------------------------------------------------------------
+
 # API helpers
-# ----------------------------------------------------------------------
+
 def _get(path: str, params: dict | None = None):
     base = st.session_state.api_base.rstrip("/")
     try:
@@ -177,9 +167,9 @@ def get_bundle(query):
     return fetch_bundle(st.session_state.api_base, query)
 
 
-# ----------------------------------------------------------------------
+
 # Render helpers
-# ----------------------------------------------------------------------
+
 def match_color(pct: float) -> str:
     if pct >= 70:
         return "#46d369"
@@ -237,9 +227,9 @@ def go_home():
     st.session_state.view = "home"
 
 
-# ----------------------------------------------------------------------
+
 # Sidebar
-# ----------------------------------------------------------------------
+
 with st.sidebar:
     st.markdown('<p class="brand">🎬 CINEMATCH</p>', unsafe_allow_html=True)
     st.markdown('<p class="tagline">Find your next watch</p>', unsafe_allow_html=True)
@@ -260,9 +250,9 @@ with st.sidebar:
         st.session_state.api_base = st.text_input("Backend URL", value=st.session_state.api_base)
         st.caption("Point this at wherever `uvicorn main:app` is running.")
 
-# ----------------------------------------------------------------------
+
 # Top bar — search
-# ----------------------------------------------------------------------
+
 st.markdown('<p class="brand">🎬 CINEMATCH</p>', unsafe_allow_html=True)
 st.markdown('<p class="tagline">Type a title to search, or browse what\'s trending below.</p>', unsafe_allow_html=True)
 
@@ -282,9 +272,9 @@ if st.session_state.view != "details":
     elif st.session_state.view == "search":
         st.session_state.view = "home"
 
-# ----------------------------------------------------------------------
+
 # Views
-# ----------------------------------------------------------------------
+#
 
 if st.session_state.view == "home":
     st.markdown(f'<p class="section-title">{CATEGORY_LABELS[category]}</p>', unsafe_allow_html=True)
